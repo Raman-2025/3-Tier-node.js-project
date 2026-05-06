@@ -18,9 +18,9 @@ pipeline{
                     usernameVariable:'dockerHubUser',
                     passwordVariable:'dockerHubPass' )]){
                 sh '''
-                docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}
-                docker image tag 3-tier-node:latest  ${env.dockerHubUser}/3-tier-node:latest
-                docker push ${env.dockerHubUser}/3-tier-node:latest'''
+                docker login -u $dockerHubUser -p $dockerHubPass
+                docker image tag 3-tier-node:latest  $dockerHubUser/3-tier-node:latest
+                docker push $dockerHubUser/3-tier-node:latest'''
                 }
             }
         }
