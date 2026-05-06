@@ -1,0 +1,49 @@
+services:
+  db:
+    image: mysql:8
+    container_name: mysql
+    networks:
+      - 3-tier
+    volumes:
+      - my-data:/var/lib/mysql 
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: password  
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s   
+
+
+  app: 
+   build: .
+   container_name: app
+   networks:
+     - 3-tier
+   ports:
+     - "5000:5000"    
+   environment:
+     DB_HOST: mysql
+     DB_USER: appuser
+     DB_PASSWORD: password
+     DB_DATABASE: test_db
+     DATABASE_URL: mysql://appuser:password@mysql:3306/test_db    
+   restart: always
+   depends_on:
+     db:
+       condition: service_healthy
+      
+
+
+networks:
+   3-tier:
+
+volumes: 
+   my-data:  
