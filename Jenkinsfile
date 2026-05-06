@@ -1,5 +1,5 @@
 pipeline{
-    agent any
+    agent {label 'vinod'}
     stages{
         stage('clone'){
             steps{
@@ -14,7 +14,7 @@ pipeline{
         stage('push'){
             steps{
                 withCredentials([usernamePassword(
-                    credentialsId:'dockerHubCreds',
+                    credentialsId:'dockerHubCred',
                     usernameVariable:'dockerHubUser',
                     passwordVariable:'dockerHubPass' )]){
                 sh '''
