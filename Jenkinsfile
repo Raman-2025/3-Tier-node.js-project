@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'vinod'}
+    agent any
     stages{
         stage('clone'){
             steps{
